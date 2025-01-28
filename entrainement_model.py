@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
 
 # Charger les données
 def entrainement(df):
@@ -25,8 +26,8 @@ def entrainement(df):
     # Redéfinir X et y
     X = data[['temperature', 'humidite', 'force_moyenne_du_vecteur_de_vent',
               'force_du_vecteur_de_vent_max', 'pluie_intensite_max',
-              'pluie_totale', 'sismicite', 'concentration_gaz', 'quartier',
-              'jour', 'mois', 'jour_semaine', 'annee']]  # Inclure les nouvelles variables temporelles
+              'pluie_totale', 'sismicite', 'concentration_gaz', 'quartier', 'mois', 'annee'
+                ]]  # Inclure les nouvelles variables temporelles
     y = data['catastrophe']  # Remplace 'inondation' par ta colonne cible
 
     # Diviser les données en jeux d'entraînement et de test
@@ -46,6 +47,12 @@ def entrainement(df):
     # Matrice de confusion
     print("\nMatrice de confusion :")
     print(confusion_matrix(y_test, y_pred))
+
+    feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
+    feature_importances.nlargest(10).plot(kind='barh')
+    plt.title('Feature Importance')
+    plt.show()
+
 
     # Sauvegarder le modèle entraîné
     joblib.dump(rf_model, 'random_forest_model.pkl')
