@@ -24,8 +24,7 @@ def entrainement(df):
     data['quartier'] = label_encoder.fit_transform(data['quartier'])+1
 
     # Redéfinir X et y
-    X = data[['temperature', 'humidite', 'pluie_intensite_max'
-              ,
+    X = data[['temperature', 'humidite', 'pluie_intensite_max',
               'pluie_totale', 'sismicite', 'concentration_gaz', 'quartier', 'mois', 'annee'
                 ]]  # Inclure les nouvelles variables temporelles
     y = data['catastrophe']  # Remplace 'inondation' par ta colonne cible
