@@ -21,10 +21,9 @@ def prediction(df):
     nouveaux_data['quartier'] = label_encoder.transform(nouveaux_data['quartier'])+1
 
     # Redéfinir X pour la prédiction
-    X_nouveaux = nouveaux_data[['temperature', 'humidite', 'force_moyenne_du_vecteur_de_vent',
-                                 'force_du_vecteur_de_vent_max', 'pluie_intensite_max',
+    X_nouveaux = nouveaux_data[['temperature', 'humidite',  'pluie_intensite_max',
                                  'pluie_totale', 'sismicite', 'concentration_gaz', 'quartier',
-                                 'jour', 'mois', 'jour_semaine', 'annee']]
+                                  'mois', 'annee']]
 
     # Prédire les catastrophes
     predictions = rf_model.predict(X_nouveaux)
@@ -42,6 +41,7 @@ def prediction(df):
     nouveaux_data = nouveaux_data.drop(columns=['mois'])
     nouveaux_data = nouveaux_data.drop(columns=['jour_semaine'])
     nouveaux_data = nouveaux_data.drop(columns=['annee'])
+
     # Sauvegarder les résultats dans un fichier CSV
     nouveaux_data.to_csv('resultats_predictions_probabilites.csv', index=False)
 
